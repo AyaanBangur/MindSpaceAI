@@ -9,19 +9,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#12172B;
-    --night-2:#1B2244;
-    --night-3:#242C54;
-    --sand:#F5EFE4;
-    --sand-dim:#C7C0B2;
-    --amber:#E8A657;
-    --amber-deep:#C97F3B;
-    --sage:#8FA98C;
-    --line:rgba(245,239,228,0.12);
-    --radius:18px;
-    --font-display:'Fraunces', Georgia, serif;
-    --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+  --night:#FFF6EC;
+  --night-2:#FFFFFF;
+  --night-3:#FFEADA;
+  --sand:#2B2438;
+  --sand-dim:#6B6178;
+  --amber:#FF7A45;
+  --amber-deep:#E85D2C;
+  --sage:#2EC4B6;
+  --lavender:#8B7FD6;
+  --sun:#FFC857;
+  --line:rgba(43,36,56,0.12);
+  --radius:18px;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -150,6 +152,8 @@
     outline:2px solid var(--amber); outline-offset:2px;
   }
   .companions-note{margin-top:18px; font-size:13px; color:var(--sand-dim);}
+  .start-talking{margin-top:22px;}
+  .start-talking[hidden]{display:none;}
 
   /* ---------- how it works ---------- */
   .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:26px;}
@@ -230,6 +234,9 @@
           <p data-i18n="guides_p">These are support guides, not simulated friends — each has a different pace and tone. Preview a voice before you start. You can switch anytime.</p>
         </div>
         <div class="companions" id="companion-list"></div>
+        <div id="start-talking" class="start-talking" hidden>
+          <a id="start-talking-link" href="#" class="btn btn-primary" data-i18n="start_cta">Start talking with this guide →</a>
+        </div>
         <p class="companions-note" data-i18n="guides_note">Every guide follows the same boundaries: honest about being an AI, never a replacement for real people, always pointing you to 988/911 if things feel urgent.</p>
       </div>
     </section>
@@ -323,6 +330,15 @@ function renderCompanions(){
       previewVoice(btn.dataset.id);
     });
   });
+
+  const startEl = document.getElementById('start-talking');
+  const startLink = document.getElementById('start-talking-link');
+  if(selectedCompanion){
+    startEl.hidden = false;
+    startLink.href = `chat.html?guide=${selectedCompanion}&lang=${currentLang}`;
+  } else {
+    startEl.hidden = true;
+  }
 }
 
 function previewVoice(id){
@@ -360,6 +376,7 @@ const i18n = {
   guides_h2:{en:'Pick whichever presence feels comfortable.', es:'Elige la presencia que te resulte más cómoda.'},
   guides_p:{en:'These are support guides, not simulated friends — each has a different pace and tone. Preview a voice before you start. You can switch anytime.', es:'Son guías de apoyo, no amigos simulados — cada una tiene un ritmo y tono distinto. Escucha una voz antes de empezar. Puedes cambiar cuando quieras.'},
   guides_note:{en:'Every guide follows the same boundaries: honest about being an AI, never a replacement for real people, always pointing you to 988/911 if things feel urgent.', es:'Todas las guías siguen los mismos límites: honestas sobre ser una IA, nunca un reemplazo de personas reales, siempre te guían al 988/911 si algo se siente urgente.'},
+  start_cta:{en:'Start talking with this guide →', es:'Empezar a hablar con esta guía →'},
   how_eyebrow:{en:'Built for the moments before a crisis', es:'Creado para los momentos antes de una crisis'},
   how_h2:{en:'Three steps. Nothing more required.', es:'Tres pasos. Nada más se requiere.'},
   step1_h:{en:'Check in', es:'Registra cómo estás'}, step1_p:{en:"Tap how you're feeling. One word is enough.", es:'Toca cómo te sientes. Una palabra basta.'},
