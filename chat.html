@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Talking — mindspace</title>
+<title>Talking · MindSpace</title>
 <meta name="description" content="A private, anonymous conversation space.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/avatar.css">
 <style>
   :root{
-  --night:#FFF6EC;
+  --night:#EAF5F6;
   --night-2:#FFFFFF;
-  --night-3:#FFEADA;
-  --sand:#2B2438;
-  --sand-dim:#6B6178;
-  --amber:#FF7A45;
-  --amber-deep:#E85D2C;
-  --sage:#2EC4B6;
-  --lavender:#8B7FD6;
-  --sun:#FFC857;
-  --line:rgba(43,36,56,0.12);
+  --night-3:#D2ECEA;
+  --sand:#1F3B3E;
+  --sand-dim:#5C7A7D;
+  --amber:#3FB6AE;
+  --amber-deep:#2E948D;
+  --sage:#6FBF8B;
+  --lavender:#8FA8D9;
+  --sun:#FFC978;
+  --line:rgba(31,59,62,0.14);
+  --grad:linear-gradient(135deg, var(--amber) 0%, var(--sage) 55%, var(--lavender) 100%);
   --radius:18px;
   --font-display:'Fraunces', Georgia, serif;
   --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -30,26 +32,36 @@
   a{color:inherit;}
   .wrap{max-width:720px; margin:0 auto; padding:0 20px; width:100%;}
 
-  .crisis-bar{position:sticky; top:0; z-index:100; background:var(--amber); color:var(--night); font-weight:600; font-size:13.5px; flex:none;}
+  .crisis-bar{position:sticky; top:0; z-index:100; background:var(--grad); color:#fff; font-weight:600; font-size:13.5px; flex:none;}
   .crisis-bar .wrap{max-width:1080px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px 16px; padding:8px 20px; text-align:center;}
   .crisis-bar a{text-decoration:underline; text-underline-offset:2px; white-space:nowrap;}
   .crisis-bar .sep{opacity:.55;}
 
-  header.chat-head{border-bottom:1px solid var(--line); padding:14px 0; flex:none;}
-  header.chat-head .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px;}
-  .guide-id{display:flex; align-items:center; gap:10px;}
-  .guide-id .orb{width:34px; height:34px; border-radius:50%; flex:none;}
-  .guide-id h1{font-family:var(--font-display); font-weight:500; font-size:17px; margin:0;}
-  .guide-id .vibe{font-size:12px; color:var(--sand-dim); margin:0;}
-  .head-actions{display:flex; align-items:center; gap:10px;}
+  header.chat-head{border-bottom:1px solid var(--line); padding:16px 0; flex:none;}
+  header.chat-head .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .guide-id{display:flex; align-items:center; gap:14px;}
+  .guide-id .avatar-face{flex:none;}
+  .guide-id h1{font-family:var(--font-display); font-weight:500; font-size:18px; margin:0;}
+  .guide-id .vibe{font-size:12.5px; color:var(--sand-dim); margin:2px 0 0;}
+  .guide-id .talk-state{font-size:11.5px; color:var(--sage); font-weight:600; margin:2px 0 0; min-height:14px;}
+
+  .head-actions{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .select-sm{
+    background:var(--night-2); border:1px solid var(--line); color:var(--sand);
+    border-radius:999px; padding:6px 26px 6px 12px; font-family:var(--font-body); font-size:12.5px; font-weight:600;
+    cursor:pointer; appearance:none; max-width:130px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C7A7D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 10px center;
+  }
+  .select-sm:hover{border-color:var(--amber); color:var(--amber);}
   .icon-btn{
     background:transparent; border:1px solid var(--line); color:var(--sand);
     width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:15px;
-    display:flex; align-items:center; justify-content:center;
+    display:flex; align-items:center; justify-content:center; flex:none;
   }
   .icon-btn[aria-pressed="true"]{border-color:var(--amber); color:var(--amber);}
-  .icon-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
-  .end-link{font-size:13px; color:var(--sand-dim); text-decoration:none; border:1px solid var(--line); padding:8px 14px; border-radius:999px;}
+  .icon-btn:focus-visible, .select-sm:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .end-link{font-size:13px; color:var(--sand-dim); text-decoration:none; border:1px solid var(--line); padding:8px 14px; border-radius:999px; white-space:nowrap;}
   .end-link:hover{color:var(--sand); border-color:var(--sand-dim);}
 
   main{flex:1; overflow-y:auto; padding:24px 0 12px;}
@@ -69,14 +81,22 @@
   .escalation.show{display:block;}
   .escalation h2{font-family:var(--font-display); font-weight:500; font-size:19px; margin:0 0 8px;}
   .escalation p{font-size:14.5px; color:var(--sand-dim); margin:0 0 16px;}
+  .escalation-safety{
+    background:var(--night-3); border-radius:12px; padding:12px 14px;
+    color:var(--sand); font-size:13.5px !important; margin:0 0 16px !important;
+  }
   .escalation-actions{display:flex; flex-wrap:wrap; gap:10px;}
   .escalation-actions a{
     display:inline-flex; align-items:center; gap:8px; text-decoration:none;
     font-weight:700; font-size:14px; padding:11px 18px; border-radius:999px;
   }
-  .escalation-actions .primary{background:var(--amber); color:var(--night);}
+  .escalation-actions .primary{background:var(--grad); color:#fff;}
   .escalation-actions .primary:hover{background:var(--amber-deep);}
   .escalation-actions .ghost{border:1px solid var(--line); color:var(--sand);}
+  .escalation-note{
+    font-size:13px !important; color:var(--sand-dim); margin:16px 0 0 !important;
+    padding-top:14px; border-top:1px solid var(--line);
+  }
 
   footer.composer{border-top:1px solid var(--line); padding:14px 0 20px; flex:none;}
   .composer-row{display:flex; gap:10px; align-items:flex-end;}
@@ -86,12 +106,24 @@
   }
   #msg-input:focus-visible{outline:2px solid var(--amber); outline-offset:1px;}
   #send-btn{
-    flex:none; background:var(--amber); color:var(--night); border:none; border-radius:50%;
+    flex:none; background:var(--grad); color:#fff; border:none; border-radius:50%;
     width:44px; height:44px; font-size:17px; cursor:pointer;
   }
   #send-btn:hover{background:var(--amber-deep);}
   #send-btn:focus-visible{outline:2px solid var(--sand); outline-offset:2px;}
+  #mic-btn{
+    flex:none; background:var(--night-2); color:var(--sand); border:1px solid var(--line); border-radius:50%;
+    width:44px; height:44px; font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  #mic-btn:hover{border-color:var(--amber); color:var(--amber);}
+  #mic-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  #mic-btn[aria-pressed="true"]{background:var(--grad); border-color:var(--amber); color:#fff; animation:mic-pulse 1.4s ease-in-out infinite;}
+  @keyframes mic-pulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(63,182,174,0.45); }
+    50%{ box-shadow:0 0 0 8px rgba(63,182,174,0); }
+  }
   .composer-note{font-size:11.5px; color:var(--sand-dim); margin:8px 4px 0;}
+  .demo-note{font-size:11px; color:var(--sand-dim); margin:2px 4px 0; opacity:.75;}
 
   @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
 </style>
@@ -112,13 +144,16 @@
   <header class="chat-head">
     <div class="wrap">
       <div class="guide-id">
-        <svg class="orb" id="head-orb" viewBox="0 0 34 34"><circle cx="17" cy="17" r="16" fill="#E8A657"/></svg>
+        <div id="head-avatar"></div>
         <div>
           <h1 id="head-name">Guide</h1>
           <p class="vibe" id="head-vibe">support guide</p>
+          <p class="talk-state" id="head-talk-state" aria-live="polite"></p>
         </div>
       </div>
       <div class="head-actions">
+        <select id="voice-select" class="select-sm" aria-label="Voice" title="Voice"></select>
+        <button class="icon-btn" id="save-btn" type="button" aria-pressed="false" title="Save this chat on this device">💾</button>
         <button class="icon-btn" id="mute-btn" type="button" aria-pressed="false" title="Mute voice">🔊</button>
         <a class="end-link" href="index.html">End chat</a>
       </div>
@@ -135,112 +170,307 @@
     <div class="wrap">
       <div class="composer-row">
         <textarea id="msg-input" rows="1" placeholder="Type anything. Nothing is saved." aria-label="Message"></textarea>
+        <button id="mic-btn" type="button" aria-pressed="false" aria-label="Speak instead of typing" title="Speak instead of typing">🎙️</button>
         <button id="send-btn" type="button" aria-label="Send">↑</button>
       </div>
-      <p class="composer-note">Anonymous · nothing saved · not a replacement for 988 or a real person</p>
+      <p class="composer-note" id="composer-note">Anonymous · nothing saved · not a replacement for 988 or a real person</p>
+      <p class="demo-note" id="demo-note"></p>
     </div>
   </footer>
 
+<script src="assets/guides.js"></script>
+<script src="assets/avatar.js"></script>
+<script src="assets/voices.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/history.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/backend.js"></script>
 <script>
 /*
   ================================================================
-  INTEGRATION NOTE — read before Week 3
+  INTEGRATION NOTE
   ================================================================
-  Right now sendToGuide() below returns a scripted local response.
-  It is NOT connected to Claude or any backend yet — on purpose,
-  per the project plan: the real risk-detection spec needs to exist
-  and get reviewed before real conversations flow through this.
+  sendToGuide() delegates to window.MindspaceBackend.sendToGuide(),
+  which uses the real Supabase edge function (supabase/functions/chat)
+  if assets/config.js has SUPABASE_URL configured, or a local scripted
+  mock otherwise (the default — safe for demos, no backend required).
 
-  When that's ready, sendToGuide() gets replaced with a fetch() to
-  a Supabase Edge Function, which calls the Claude API server-side
-  (API key never touches this file) and returns:
-    { reply: string, risk_flag: boolean }
-
-  risk_flag=true is what triggers showEscalation() below.
-  See /supabase/functions/chat/index.ts for the backend template.
+  Per docs/RISK_DETECTION_SPEC.md, the real backend's risk-detection
+  pass is implemented but NOT yet reviewed by anyone with clinical/
+  crisis background — do not point this at real users until that
+  review has happened. See README.md "Status" for the current gate.
   ================================================================
 */
 
+const { GUIDES, getGuide } = window.MindspaceGuides;
+const { LANGS, t, langMeta } = window.MindspaceI18n;
+
 const params = new URLSearchParams(location.search);
 const guideId = params.get('guide') || 'sol';
-const lang = params.get('lang') || 'en';
+const lang = params.get('lang') || localStorage.getItem('mindspace_lang') || 'en';
+const guide = getGuide(guideId);
 
-const guides = {
-  wren:{color:'#8FA98C', name:{en:'Wren',es:'Wren'}, vibe:{en:'steady and quiet',es:'firme y tranquilo/a'}, pitch:1.0, rate:0.95},
-  sol:{color:'#E8A657', name:{en:'Sol',es:'Sol'}, vibe:{en:'warm and encouraging',es:'cálido/a y alentador/a'}, pitch:1.15, rate:1.0},
-  moss:{color:'#6E8B72', name:{en:'Moss',es:'Moss'}, vibe:{en:'grounded, doesn\u2019t rush you',es:'con los pies en la tierra'}, pitch:0.9, rate:0.9},
-  ember:{color:'#D97757', name:{en:'Ember',es:'Ember'}, vibe:{en:'gentle and curious',es:'suave y curioso/a'}, pitch:1.05, rate:1.0},
-};
-const guide = guides[guideId] || guides.sol;
-
-document.getElementById('head-orb').querySelector('circle').setAttribute('fill', guide.color);
+document.documentElement.lang = lang;
+document.getElementById('head-avatar').innerHTML = window.MindspaceAvatar.render(guide, 52, { bob:false });
 document.getElementById('head-name').textContent = guide.name[lang];
 document.getElementById('head-vibe').textContent = guide.vibe[lang];
+document.getElementById('msg-input').placeholder = t(lang, 'composer_placeholder');
+document.getElementById('composer-note').textContent = t(lang, 'composer_note');
+document.querySelector('.end-link').textContent = t(lang, 'end_chat');
+if(!window.MindspaceBackend.isLive){
+  document.getElementById('demo-note').textContent =
+    lang === 'es' ? '(Modo demostración local: sin backend en vivo conectado.)' :
+    lang === 'fr' ? '(Mode démo local : aucun backend en direct connecté.)' :
+    lang === 'hi' ? '(स्थानीय डेमो मोड: कोई लाइव बैकएंड कनेक्ट नहीं है।)' :
+    lang === 'zh' ? '（本地演示模式：未连接实时后端。）' :
+    '(Local demo mode: no live backend connected.)';
+}
 
+/* ---------------- voice picker ---------------- */
+const voiceSelect = document.getElementById('voice-select');
+let voicesForLang = [];
+
+function populateVoices(){
+  if(!('speechSynthesis' in window)) { voiceSelect.style.display = 'none'; return; }
+  const all = window.speechSynthesis.getVoices();
+  const prefix = langMeta(lang).speech.split('-')[0];
+  voicesForLang = all.filter(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+  const stored = localStorage.getItem(`mindspace_voice_${lang}`);
+  voiceSelect.innerHTML = `<option value="">${t(lang,'voice_label')}: default</option>` +
+    voicesForLang.map(v => `<option value="${v.name}">${v.name}</option>`).join('');
+  if(stored && voicesForLang.some(v => v.name === stored)) voiceSelect.value = stored;
+}
+if('speechSynthesis' in window){
+  populateVoices();
+  window.speechSynthesis.onvoiceschanged = populateVoices;
+}
+voiceSelect.addEventListener('change', ()=>{
+  localStorage.setItem(`mindspace_voice_${lang}`, voiceSelect.value);
+});
+
+// Chrome/Edge have a well-documented bug where calling speak() before the
+// browser has finished loading its voice list (an async step) can leave
+// the whole speech queue permanently stuck for the rest of the page's
+// life — not just the first utterance. Since our very first speak() call
+// happens automatically on load (the opener greeting), gate all speech on
+// voices actually being available, with a timeout fallback for browsers
+// that never fire voiceschanged (voices already ready synchronously).
+let voicesReady = false;
+function whenVoicesReady(cb){
+  if(!('speechSynthesis' in window)){ cb(); return; }
+  if(voicesReady || window.speechSynthesis.getVoices().length){ voicesReady = true; cb(); return; }
+  const done = () => { if(voicesReady) return; voicesReady = true; cb(); };
+  window.speechSynthesis.addEventListener('voiceschanged', done, { once: true });
+  setTimeout(done, 300);
+}
+
+/* ---------------- save chat (on-device only, opt-in) ---------------- */
+let saveEnabled = false;
+let historyMessages = [];
+let sessionId = null;
+let sessionStartedAt = null;
+const saveBtn = document.getElementById('save-btn');
+saveBtn.title = t(lang, 'save_chat_off_title');
+saveBtn.setAttribute('aria-label', saveBtn.title);
+
+function persistSession(){
+  if(!saveEnabled) return;
+  if(!sessionId){
+    sessionId = window.MindspaceHistory.newSessionId();
+    sessionStartedAt = Date.now();
+  }
+  window.MindspaceHistory.upsertSession({
+    id: sessionId,
+    guideId,
+    guideName: guide.name[lang],
+    lang,
+    startedAt: sessionStartedAt,
+    updatedAt: Date.now(),
+    messages: historyMessages,
+  });
+}
+
+saveBtn.addEventListener('click', ()=>{
+  saveEnabled = !saveEnabled;
+  saveBtn.setAttribute('aria-pressed', saveEnabled);
+  saveBtn.title = t(lang, saveEnabled ? 'save_chat_on_title' : 'save_chat_off_title');
+  saveBtn.setAttribute('aria-label', saveBtn.title);
+  document.getElementById('composer-note').textContent = t(lang, saveEnabled ? 'composer_note_saving' : 'composer_note');
+  if(saveEnabled) persistSession();
+});
+
+/* ---------------- mute ---------------- */
 let muted = false;
 const muteBtn = document.getElementById('mute-btn');
+muteBtn.title = t(lang, 'mute_title');
 muteBtn.addEventListener('click', ()=>{
   muted = !muted;
   muteBtn.setAttribute('aria-pressed', muted);
   muteBtn.textContent = muted ? '🔇' : '🔊';
+  muteBtn.title = t(lang, muted ? 'unmute_title' : 'mute_title');
   if(muted) window.speechSynthesis.cancel();
 });
 
 const thread = document.getElementById('thread');
+const talkState = document.getElementById('head-talk-state');
 
-function addMessage(text, role){
+/* ---------------- voice input (microphone) ---------------- */
+const micBtn = document.getElementById('mic-btn');
+const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if(!SpeechRecognitionCtor){
+  micBtn.style.display = 'none';
+} else {
+  const recognition = new SpeechRecognitionCtor();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  let listening = false;
+  let baseValue = '';
+
+  micBtn.title = t(lang, 'mic_start_title');
+  micBtn.setAttribute('aria-label', t(lang, 'mic_start_title'));
+
+  function stopListening(errorMsg){
+    listening = false;
+    micBtn.setAttribute('aria-pressed', 'false');
+    micBtn.title = t(lang, 'mic_start_title');
+    micBtn.setAttribute('aria-label', t(lang, 'mic_start_title'));
+    if(talkState.textContent === t(lang, 'listening_state')){
+      talkState.textContent = errorMsg || '';
+      if(errorMsg) setTimeout(() => { if(talkState.textContent === errorMsg) talkState.textContent = ''; }, 4000);
+    }
+    // Words land in the composer so the person can read, edit, or delete
+    // them before anything is sent — never auto-submitted from voice.
+    input.focus();
+  }
+
+  micBtn.addEventListener('click', ()=>{
+    if(listening){
+      recognition.stop();
+      return;
+    }
+    window.speechSynthesis.cancel();
+    baseValue = input.value ? input.value.trim() + ' ' : '';
+    recognition.lang = langMeta(lang).speech;
+    try{
+      recognition.start();
+    }catch(err){
+      // Most commonly InvalidStateError (already running) — safe to ignore.
+      // Anything else (e.g. SecurityError on an insecure context) was
+      // previously swallowed here with no visible sign anything was wrong.
+      console.error('Speech recognition failed to start:', err.name, err.message);
+      if(err.name !== 'InvalidStateError'){
+        talkState.textContent = `Voice input unavailable: ${err.name}`;
+      }
+    }
+  });
+
+  recognition.addEventListener('start', ()=>{
+    listening = true;
+    micBtn.setAttribute('aria-pressed', 'true');
+    micBtn.title = t(lang, 'mic_stop_title');
+    micBtn.setAttribute('aria-label', t(lang, 'mic_stop_title'));
+    talkState.textContent = t(lang, 'listening_state');
+  });
+
+  recognition.addEventListener('result', (e)=>{
+    let transcript = '';
+    for(let i = 0; i < e.results.length; i++){
+      transcript += e.results[i][0].transcript;
+    }
+    input.value = baseValue + transcript;
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+
+  recognition.addEventListener('end', () => stopListening());
+  recognition.addEventListener('error', (e)=>{
+    console.error('Speech recognition error:', e.error);
+    const messages = {
+      'no-speech': lang === 'es' ? 'No te escuché. Inténtalo de nuevo.' : lang === 'fr' ? 'Je ne vous ai pas entendu. Réessayez.' : lang === 'hi' ? 'मैंने सुना नहीं। फिर कोशिश करें।' : lang === 'zh' ? '没有听到，请再试一次。' : "Didn't catch that. Try again.",
+      'audio-capture': lang === 'es' ? 'No se encontró micrófono.' : lang === 'fr' ? 'Aucun microphone trouvé.' : lang === 'hi' ? 'कोई माइक्रोफ़ोन नहीं मिला।' : lang === 'zh' ? '未检测到麦克风。' : 'No microphone found.',
+      'not-allowed': lang === 'es' ? 'Permiso de micrófono denegado.' : lang === 'fr' ? 'Permission du microphone refusée.' : lang === 'hi' ? 'माइक्रोफ़ोन की अनुमति नहीं दी गई।' : lang === 'zh' ? '麦克风权限被拒绝。' : 'Microphone permission denied.',
+      'network': lang === 'es' ? 'Fallo de red. La voz necesita conexión a internet.' : lang === 'fr' ? 'Échec réseau. La voix nécessite une connexion internet.' : lang === 'hi' ? 'नेटवर्क विफल। आवाज़ को इंटरनेट चाहिए।' : lang === 'zh' ? '网络错误，语音识别需要联网。' : 'Network error. Voice input needs an internet connection.',
+    };
+    const msg = messages[e.error] || `Voice input error: ${e.error}`;
+    stopListening(msg);
+  });
+}
+
+function addMessage(text, role, record = true){
   const el = document.createElement('div');
   el.className = `msg ${role}`;
   el.textContent = text;
   thread.appendChild(el);
   thread.scrollTop = thread.scrollHeight;
+  if(record && (role === 'user' || role === 'bot')){
+    historyMessages.push({ role, text, ts: Date.now() });
+    persistSession();
+  }
   return el;
 }
 
 function speak(text){
   if(muted || !('speechSynthesis' in window)) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.pitch = guide.pitch; u.rate = guide.rate; u.lang = lang==='en' ? 'en-US' : 'es-ES';
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
+  whenVoicesReady(() => {
+    if(muted) return; // muted may have been toggled during the wait
+    const u = new SpeechSynthesisUtterance(text);
+    u.pitch = guide.pitch; u.rate = guide.rate; u.lang = langMeta(lang).speech;
+    const chosenName = voiceSelect.value;
+    const chosenVoice = chosenName
+      ? voicesForLang.find(x => x.name === chosenName)
+      : window.MindspaceVoices.pick(u.lang, guide.gender, guideId);
+    if(chosenVoice) u.voice = chosenVoice;
+
+    // Chrome silently stalls long-running utterances after ~15s unless the
+    // queue is nudged; this interval is a no-op for short replies and a
+    // fix for longer ones. Cleared as soon as speech actually stops.
+    let keepAlive = null;
+    u.onstart = () => {
+      window.MindspaceAvatar.setTalking(document, guideId, true);
+      talkState.textContent = lang === 'es' ? 'hablando…' : lang === 'fr' ? 'parle…' : lang === 'hi' ? 'बोल रहा है…' : lang === 'zh' ? '正在说话…' : 'speaking…';
+      keepAlive = setInterval(() => {
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      }, 10000);
+    };
+    const stop = () => {
+      if(keepAlive) clearInterval(keepAlive);
+      window.MindspaceAvatar.setTalking(document, guideId, false);
+      talkState.textContent = '';
+    };
+    u.onend = stop;
+    u.onerror = stop;
+    window.speechSynthesis.cancel();
+    // A zero-delay defer is a widely-reported fix for speak() being
+    // dropped when called synchronously right after page load.
+    setTimeout(() => window.speechSynthesis.speak(u), 0);
+  });
 }
 
 function showEscalation(){
   const el = document.createElement('div');
   el.className = 'escalation show';
   el.innerHTML = `
-    <h2>${lang==='en' ? "It sounds like things feel really heavy right now." : 'Parece que las cosas se sienten muy pesadas ahora mismo.'}</h2>
-    <p>${lang==='en' ? "I'm not able to give you the kind of help a real person can in this moment. Please reach out right now — someone is available immediately." : 'No puedo darte el tipo de ayuda que una persona real puede en este momento. Por favor comunícate ahora mismo — alguien está disponible de inmediato.'}</p>
+    <h2>${t(lang,'escalation_h')}</h2>
+    <p>${t(lang,'escalation_p')}</p>
+    <p class="escalation-safety">${t(lang,'escalation_safety')}</p>
     <div class="escalation-actions">
-      <a class="primary" href="tel:988">${lang==='en' ? 'Call 988 now' : 'Llama al 988 ahora'}</a>
-      <a class="ghost" href="sms:741741&body=HOME">${lang==='en' ? 'Text HOME to 741741' : 'Envía HOME al 741741'}</a>
+      <a class="primary" href="tel:988">${t(lang,'escalation_call')}</a>
+      <a class="ghost" href="sms:741741&body=HOME">${t(lang,'escalation_text')}</a>
+      <a class="ghost" href="tel:911">${t(lang,'escalation_911')}</a>
     </div>
+    <p class="escalation-note">${t(lang,'escalation_stay')}</p>
   `;
   thread.appendChild(el);
   thread.scrollTop = thread.scrollHeight;
 }
 
-/*
-  Temporary local stand-in for the backend call.
-  The trigger word below is a UI DEMO ONLY so you and your advisor
-  can see and test what the escalation screen looks and feels like
-  — it is deliberately not a real keyword/risk detector. Real
-  detection logic is a Week 3 task and belongs in the backend,
-  not hardcoded here.
-*/
-function sendToGuide(userText){
-  return new Promise(resolve=>{
-    setTimeout(()=>{
-      if(userText.trim().toUpperCase() === 'TESTESCALATION'){
-        resolve({ reply: null, risk_flag: true });
-      } else {
-        const stock = lang==='en'
-          ? ["I hear you. Want to say more about that?", "That sounds like a lot to carry. I'm listening.", "Thanks for telling me that — take your time."]
-          : ["Te escucho. ¿Quieres contarme más?", "Suena pesado. Aquí estoy.", "Gracias por decirme eso — tómate tu tiempo."];
-        resolve({ reply: stock[Math.floor(Math.random()*stock.length)], risk_flag: false });
-      }
-    }, 500);
-  });
+let conversationHistory = [];
+
+async function sendToGuide(userText){
+  const { reply, risk_flag } = await window.MindspaceBackend.sendToGuide(guideId, lang, conversationHistory, userText);
+  return { reply, risk_flag };
 }
 
 const input = document.getElementById('msg-input');
@@ -250,10 +480,11 @@ async function handleSend(){
   const text = input.value.trim();
   if(!text) return;
   addMessage(text, 'user');
+  conversationHistory.push({ role: 'user', content: text });
   input.value = '';
   input.style.height = 'auto';
 
-  const thinking = addMessage(lang==='en' ? '…' : '…', 'bot');
+  const thinking = addMessage('…', 'bot', false);
   const { reply, risk_flag } = await sendToGuide(text);
   thinking.remove();
 
@@ -261,6 +492,7 @@ async function handleSend(){
     showEscalation();
   } else {
     addMessage(reply, 'bot');
+    conversationHistory.push({ role: 'assistant', content: reply });
     speak(reply);
   }
 }
@@ -275,12 +507,9 @@ input.addEventListener('input', ()=>{
 });
 
 // opening message
-const openers = {
-  en: `Hi, I'm ${guide.name.en}. No pressure — I'm just here if you want to talk. What's on your mind?`,
-  es: `Hola, soy ${guide.name.es}. Sin presión, estoy aquí si quieres hablar. ¿Qué tienes en mente?`,
-};
-addMessage(openers[lang], 'bot');
-speak(openers[lang]);
+const opener = t(lang, 'opener', { name: guide.name[lang] });
+addMessage(opener, 'bot');
+speak(opener);
 </script>
 </body>
 </html>

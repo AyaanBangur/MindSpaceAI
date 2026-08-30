@@ -1,0 +1,35 @@
+/* MindSpace — shared avatar animation styles. Loaded on every page that
+   renders a guide avatar (index.html, chat.html). */
+.avatar-face { display: block; }
+.avatar-face .eye {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: ms-blink 5s ease-in-out infinite;
+  animation-delay: var(--blink-delay, 0s);
+}
+@keyframes ms-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.12); }
+}
+.avatar-face .avatar-mouth {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform .12s ease;
+}
+.avatar-face.is-talking .avatar-mouth {
+  animation: ms-talk 0.28s ease-in-out infinite alternate;
+}
+@keyframes ms-talk {
+  from { transform: scaleY(0.45); }
+  to   { transform: scaleY(1.7); }
+}
+.avatar-face.idle-bob {
+  animation: ms-bob 4.5s ease-in-out infinite;
+}
+@keyframes ms-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-face, .avatar-face * { animation: none !important; }
+}

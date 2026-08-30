@@ -1,4 +1,4 @@
-# mindspace — build plan to September 1
+# MindSpace — build plan to September 1
 
 **Today:** Aug 3, 2026 · **Deadline:** Sept 1, 2026 · **29 days**
 

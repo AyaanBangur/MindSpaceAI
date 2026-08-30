@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose a guide · MindSpace</title>
+<meta name="description" content="Pick a support guide and preview their voice before you start talking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/avatar.css">
+<style>
+  :root{
+  --night:#EAF5F6;
+  --night-2:#FFFFFF;
+  --night-3:#D2ECEA;
+  --sand:#1F3B3E;
+  --sand-dim:#5C7A7D;
+  --amber:#3FB6AE;
+  --amber-deep:#2E948D;
+  --sage:#6FBF8B;
+  --lavender:#8FA8D9;
+  --sun:#FFC978;
+  --line:rgba(31,59,62,0.14);
+  --grad:linear-gradient(135deg, var(--amber) 0%, var(--sage) 55%, var(--lavender) 100%);
+  --radius:18px;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--sand);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img,svg{max-width:100%;display:block;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- persistent crisis bar ---------- */
+  .crisis-bar{
+    position:sticky; top:0; z-index:100;
+    background:var(--grad);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:14px;
+  }
+  .crisis-bar .wrap{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:6px 18px; padding:9px 24px; text-align:center;
+  }
+  .crisis-bar a{ text-decoration:underline; text-underline-offset:2px; white-space:nowrap;}
+  .crisis-bar .sep{opacity:.55; display:inline-block;}
+
+  /* ---------- nav ---------- */
+  header.site{
+    padding:22px 0 10px;
+    border-bottom:1px solid var(--line);
+  }
+  nav.site{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:9px;
+    font-family:var(--font-display); font-size:20px; letter-spacing:.01em; text-decoration:none;
+  }
+  .logo .moon{width:20px;height:20px;flex:none;}
+  .nav-links{display:flex; align-items:center; gap:22px; font-size:14px; font-weight:500;}
+  .nav-links a{text-decoration:none; opacity:.85;}
+  .nav-links a:hover{opacity:1;}
+  .nav-links a[aria-current="page"]{opacity:1; color:var(--amber-deep);}
+  #lang-select{
+    background:var(--night-2); border:1px solid var(--line); color:var(--sand);
+    border-radius:999px; padding:6px 30px 6px 14px; font-family:var(--font-body); font-size:13px; font-weight:600;
+    cursor:pointer; appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C7A7D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center;
+  }
+  #lang-select:hover{border-color:var(--amber); color:var(--amber);}
+  #lang-select:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .lang-beta-note{
+    font-size:12px; color:var(--sand-dim); margin-top:8px; padding:8px 12px;
+    border:1px dashed var(--line); border-radius:10px; max-width:44ch;
+  }
+  .lang-beta-note[hidden]{display:none;}
+
+  /* ---------- page intro ---------- */
+  .page-intro{
+    padding:56px 0 8px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg, var(--night-3) 0%, var(--night) 78%);
+  }
+  .page-intro::before{
+    content:"";
+    position:absolute; top:-140px; right:-140px;
+    width:360px; height:360px; border-radius:50%;
+    background:radial-gradient(circle, rgba(63,182,174,0.20), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:40px 0 64px;}
+  .section-head{max-width:56ch; margin-bottom:40px; position:relative;}
+  .section-eyebrow{font-size:13px; font-weight:600; color:var(--amber); letter-spacing:.04em; text-transform:uppercase; margin-bottom:10px;}
+  h2{font-family:var(--font-display); font-weight:500; font-size:clamp(26px,3.4vw,36px); margin:0 0 12px; letter-spacing:-.01em;}
+  .section-head p{color:var(--sand-dim); font-size:16px; margin:0;}
+
+  /* ---------- companions ---------- */
+  .companions{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;}
+  .companion{
+    background:var(--night-2); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; text-align:left; cursor:pointer; color:var(--sand);
+    transition:border-color .15s, transform .15s, box-shadow .15s; position:relative;
+  }
+  .companion:hover{border-color:var(--sand-dim); transform:translateY(-2px); box-shadow:0 12px 28px rgba(31,59,62,0.10);}
+  .companion.selected{border-color:var(--amber); background:var(--night-3);}
+  .companion.selected::after{
+    content:"✓ chosen"; position:absolute; top:16px; right:16px;
+    font-size:11px; font-weight:700; color:var(--amber); letter-spacing:.03em;
+  }
+  .companion .avatar-face{margin-bottom:16px;}
+  .companion h3{font-family:var(--font-display); font-weight:500; font-size:20px; margin:0 0 6px;}
+  .companion .vibe{font-size:13px; color:var(--sand-dim); margin:0 0 16px; min-height:34px;}
+  .companion .preview-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:transparent; border:1px solid var(--line); color:var(--sand);
+    font-family:var(--font-body); font-size:12.5px; font-weight:600;
+    padding:7px 12px; border-radius:999px; cursor:pointer;
+  }
+  .companion .preview-btn:hover{border-color:var(--amber); color:var(--amber);}
+  .companion .preview-btn:focus-visible, .btn:focus-visible{
+    outline:2px solid var(--amber); outline-offset:2px;
+  }
+  .companions-note{margin-top:18px; font-size:13px; color:var(--sand-dim);}
+  .start-talking{margin-top:22px;}
+  .start-talking[hidden]{display:none;}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px; border-radius:999px; font-weight:600; font-size:15px;
+    text-decoration:none; border:1px solid transparent; cursor:pointer;
+    font-family:var(--font-body);
+  }
+  .btn-primary{background:var(--grad); color:#fff; box-shadow:0 8px 20px rgba(63,182,174,0.35);}
+  .btn-primary:hover{background:var(--amber-deep);}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); padding:44px 0 40px;}
+  footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px;}
+  .foot-col h4{font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--sand-dim); margin:0 0 12px;}
+  .foot-col a{display:block; text-decoration:none; font-size:14px; margin-bottom:8px; opacity:.9;}
+  .foot-col a:hover{opacity:1; color:var(--amber);}
+  .foot-legal{font-size:12.5px; color:var(--sand-dim); max-width:70ch; margin-top:30px; padding-top:24px; border-top:1px solid var(--line);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- persistent crisis bar: intentionally the very first thing on the page, always visible -->
+  <div class="crisis-bar" role="banner">
+    <div class="wrap">
+      <span data-i18n="crisis1">In crisis right now?</span>
+      <a href="tel:988" data-i18n="crisis2">Call or text 988</a>
+      <span class="sep">·</span>
+      <a href="sms:741741&body=HOME" data-i18n="crisis3">Text HOME to 741741</a>
+      <span class="sep">·</span>
+      <a href="tel:911" data-i18n="crisis4">Emergency: call 911</a>
+    </div>
+  </div>
+
+  <header class="site">
+    <div class="wrap">
+      <nav class="site">
+        <a href="index.html" class="logo">
+          <svg class="moon" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A9 9 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#3FB6AE"/></svg>
+          MindSpace
+        </a>
+        <div class="nav-links">
+          <a href="about.html" data-i18n="nav_about">About</a>
+          <a href="guides.html" aria-current="page" data-i18n="nav_guides">Guides</a>
+          <a href="resources.html" data-i18n="nav_resources">Resources</a>
+          <a href="history.html" data-i18n="nav_history">History</a>
+          <select id="lang-select" aria-label="Language"></select>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap"><p id="lang-beta-note" class="lang-beta-note" hidden></p></div>
+
+  <div class="page-intro"></div>
+
+  <main>
+    <section id="companions">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-eyebrow" data-i18n="guides_eyebrow">Choose a guide</div>
+          <h2 data-i18n="guides_h2">Pick whichever presence feels comfortable.</h2>
+          <p data-i18n="guides_p">These are support guides, not simulated friends. Each has a different pace and tone. Preview a voice before you start. You can switch anytime.</p>
+        </div>
+        <div class="companions" id="companion-list"></div>
+        <div id="start-talking" class="start-talking" hidden>
+          <a id="start-talking-link" href="#" class="btn btn-primary" data-i18n="start_cta">Start talking with this guide →</a>
+        </div>
+        <p class="companions-note" data-i18n="guides_note">Every guide follows the same boundaries: honest about being an AI, never a replacement for real people, always pointing you to 988/911 if things feel urgent.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-col">
+        <h4 data-i18n="foot_about">About</h4>
+        <a href="about.html" data-i18n="foot_mission">Our mission</a>
+        <a href="about.html#not" data-i18n="foot_notwhat">What this isn't</a>
+      </div>
+      <div class="foot-col">
+        <h4 data-i18n="foot_support">Support</h4>
+        <a href="resources.html" data-i18n="foot_resources">Resources</a>
+        <a href="tel:988">988 Suicide & Crisis Lifeline</a>
+        <a href="sms:741741&body=HOME">Crisis Text Line</a>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="foot-legal" data-i18n="foot_legal">MindSpace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.</p>
+    </div>
+  </footer>
+
+<script src="assets/guides.js"></script>
+<script src="assets/avatar.js"></script>
+<script src="assets/voices.js"></script>
+<script src="assets/i18n.js"></script>
+<script>
+const { GUIDES } = window.MindspaceGuides;
+const { LANGS, t, langMeta } = window.MindspaceI18n;
+
+let currentLang = localStorage.getItem('mindspace_lang') || 'en';
+let selectedCompanion = null;
+
+/* ---------------- language select ---------------- */
+const langSelect = document.getElementById('lang-select');
+langSelect.innerHTML = LANGS.map(l => `<option value="${l.code}">${l.label}</option>`).join('');
+langSelect.value = currentLang;
+langSelect.addEventListener('change', ()=>{
+  currentLang = langSelect.value;
+  localStorage.setItem('mindspace_lang', currentLang);
+  applyLang();
+});
+
+/* ---------------- companions ---------------- */
+function renderCompanions(){
+  const list = document.getElementById('companion-list');
+  list.innerHTML = GUIDES.map(c => `
+    <div class="companion${selectedCompanion===c.id?' selected':''}" data-id="${c.id}" role="button" tabindex="0" aria-pressed="${selectedCompanion===c.id}">
+      ${window.MindspaceAvatar.render(c, 56)}
+      <h3>${c.name[currentLang]}</h3>
+      <p class="vibe">${c.vibe[currentLang]}</p>
+      <button type="button" class="preview-btn" data-id="${c.id}">${t(currentLang,'preview_btn')}</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.companion').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      if(e.target.closest('.preview-btn')) return;
+      selectedCompanion = el.dataset.id;
+      renderCompanions();
+    });
+    el.addEventListener('keypress', (e)=>{
+      if(e.key==='Enter' || e.key===' '){ selectedCompanion = el.dataset.id; renderCompanions(); }
+    });
+  });
+  list.querySelectorAll('.preview-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      previewVoice(btn.dataset.id);
+    });
+  });
+
+  const startEl = document.getElementById('start-talking');
+  const startLink = document.getElementById('start-talking-link');
+  if(selectedCompanion){
+    startEl.hidden = false;
+    startLink.href = `chat.html?guide=${selectedCompanion}&lang=${currentLang}`;
+  } else {
+    startEl.hidden = true;
+  }
+}
+
+function previewVoice(id){
+  const c = GUIDES.find(x=>x.id===id);
+  window.MindspaceAvatar.setTalking(document, id, true);
+  if(!('speechSynthesis' in window)){
+    setTimeout(()=>window.MindspaceAvatar.setTalking(document, id, false), 900);
+    return;
+  }
+  const greeting = t(currentLang, 'voice_preview_greeting', { name: c.name[currentLang] });
+  const utter = new SpeechSynthesisUtterance(greeting);
+  utter.pitch = c.pitch;
+  utter.rate = c.rate;
+  utter.lang = langMeta(currentLang).speech;
+  const matchedVoice = window.MindspaceVoices.pick(utter.lang, c.gender, c.id);
+  if(matchedVoice) utter.voice = matchedVoice;
+  utter.onend = () => window.MindspaceAvatar.setTalking(document, id, false);
+  utter.onerror = () => window.MindspaceAvatar.setTalking(document, id, false);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+}
+
+// Voice lists load asynchronously in some browsers — kick off loading
+// early so a preview click later gets real matches, not an empty list.
+if('speechSynthesis' in window){
+  window.speechSynthesis.getVoices();
+}
+
+/* ---------------- language application ---------------- */
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(currentLang, el.getAttribute('data-i18n'));
+  });
+  document.documentElement.lang = currentLang;
+  const note = document.getElementById('lang-beta-note');
+  const meta = langMeta(currentLang);
+  if(meta.reviewed){
+    note.hidden = true;
+  } else {
+    note.hidden = false;
+    note.textContent = t(currentLang, 'lang_beta_note');
+  }
+  langSelect.value = currentLang;
+  renderCompanions();
+}
+
+applyLang();
+</script>
+</body>
+</html>

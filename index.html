@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mindspace — someone to talk to before things become a crisis</title>
+<title>MindSpace · Someone To Talk To Before Things Become A Crisis</title>
 <meta name="description" content="Anonymous peer-style support for teens, before things become a crisis. Not therapy. Always honest about what it is.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/avatar.css">
 <style>
   :root{
-  --night:#FFF6EC;
+  --night:#EAF5F6;
   --night-2:#FFFFFF;
-  --night-3:#FFEADA;
-  --sand:#2B2438;
-  --sand-dim:#6B6178;
-  --amber:#FF7A45;
-  --amber-deep:#E85D2C;
-  --sage:#2EC4B6;
-  --lavender:#8B7FD6;
-  --sun:#FFC857;
-  --line:rgba(43,36,56,0.12);
+  --night-3:#D2ECEA;
+  --sand:#1F3B3E;
+  --sand-dim:#5C7A7D;
+  --amber:#3FB6AE;
+  --amber-deep:#2E948D;
+  --sage:#6FBF8B;
+  --lavender:#8FA8D9;
+  --sun:#FFC978;
+  --line:rgba(31,59,62,0.14);
+  --grad:linear-gradient(135deg, var(--amber) 0%, var(--sage) 55%, var(--lavender) 100%);
   --radius:18px;
   --font-display:'Fraunces', Georgia, serif;
   --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -41,8 +43,8 @@
   /* ---------- persistent crisis bar ---------- */
   .crisis-bar{
     position:sticky; top:0; z-index:100;
-    background:var(--amber);
-    color:var(--night);
+    background:var(--grad);
+    color:#fff;
     font-family:var(--font-body);
     font-weight:600;
     font-size:14px;
@@ -70,20 +72,46 @@
   .nav-links{display:flex; align-items:center; gap:22px; font-size:14px; font-weight:500;}
   .nav-links a{text-decoration:none; opacity:.85;}
   .nav-links a:hover{opacity:1;}
-  #lang-toggle{
-    background:transparent; border:1px solid var(--line); color:var(--sand);
-    border-radius:999px; padding:6px 14px; font-family:var(--font-body); font-size:13px; font-weight:600;
-    cursor:pointer;
+  #lang-select{
+    background:var(--night-2); border:1px solid var(--line); color:var(--sand);
+    border-radius:999px; padding:6px 30px 6px 14px; font-family:var(--font-body); font-size:13px; font-weight:600;
+    cursor:pointer; appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C7A7D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center;
   }
-  #lang-toggle:hover{border-color:var(--amber); color:var(--amber);}
+  #lang-select:hover{border-color:var(--amber); color:var(--amber);}
+  #lang-select:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .lang-beta-note{
+    font-size:12px; color:var(--sand-dim); margin-top:8px; padding:8px 12px;
+    border:1px dashed var(--line); border-radius:10px; max-width:44ch;
+  }
+  .lang-beta-note[hidden]{display:none;}
 
   /* ---------- hero ---------- */
-  .hero{padding:76px 0 64px; position:relative; overflow:hidden;}
+  .hero{
+    padding:76px 0 64px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg, var(--night-3) 0%, var(--night) 62%);
+    text-align:center;
+  }
+  .hero .wrap{display:flex; flex-direction:column; align-items:center;}
   .hero::before{
     content:"";
     position:absolute; top:-160px; right:-160px;
     width:420px; height:420px; border-radius:50%;
-    background:radial-gradient(circle, rgba(232,166,87,0.16), transparent 70%);
+    background:radial-gradient(circle, rgba(63,182,174,0.24), transparent 70%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; bottom:-140px; left:-120px;
+    width:360px; height:360px; border-radius:50%;
+    background:radial-gradient(circle, rgba(143,168,217,0.22), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-glow-3{
+    position:absolute; top:40%; left:38%;
+    width:280px; height:280px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,201,120,0.18), transparent 70%);
     pointer-events:none;
   }
   .eyebrow{
@@ -95,71 +123,52 @@
   h1{
     font-family:var(--font-display); font-weight:500;
     font-size:clamp(34px, 5.4vw, 58px); line-height:1.08; letter-spacing:-.01em;
-    margin:0 0 22px; max-width:15ch;
+    margin:0 0 22px; max-width:15ch; margin-left:auto; margin-right:auto;
   }
   .hero p.lede{
-    font-size:18px; color:var(--sand-dim); max-width:52ch; margin:0 0 30px;
+    font-size:18px; color:var(--sand-dim); max-width:52ch; margin:0 auto 30px;
   }
-  .hero-ctas{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:20px;}
+  .hero-ctas{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-bottom:20px;}
   .btn{
     display:inline-flex; align-items:center; gap:8px;
     padding:14px 26px; border-radius:999px; font-weight:600; font-size:15px;
     text-decoration:none; border:1px solid transparent; cursor:pointer;
     font-family:var(--font-body);
   }
-  .btn-primary{background:var(--amber); color:var(--night);}
+  .btn-primary{background:var(--grad); color:#fff; box-shadow:0 8px 20px rgba(63,182,174,0.35);}
   .btn-primary:hover{background:var(--amber-deep);}
   .btn-ghost{border-color:var(--line); color:var(--sand);}
   .btn-ghost:hover{border-color:var(--sand-dim);}
-  .hero-tags{display:flex; flex-wrap:wrap; gap:10px 20px; font-size:13px; color:var(--sand-dim);}
+  .hero-tags{display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; font-size:13px; color:var(--sand-dim);}
   .hero-disclaimer{
-    margin-top:34px; padding:14px 18px; border:1px solid var(--line); border-radius:12px;
-    font-size:13.5px; color:var(--sand-dim); max-width:60ch;
+    margin:34px auto 0; padding:14px 18px; border:1px solid var(--line); border-radius:12px;
+    font-size:13.5px; color:var(--sand-dim); max-width:60ch; text-align:left;
   }
   .hero-disclaimer strong{color:var(--sand);}
 
   /* ---------- section shell ---------- */
-  section{padding:64px 0;}
-  .section-head{max-width:56ch; margin-bottom:40px;}
+  section{padding:64px 0; text-align:center;}
+  .section-head{max-width:56ch; margin:0 auto 40px;}
   .section-eyebrow{font-size:13px; font-weight:600; color:var(--amber); letter-spacing:.04em; text-transform:uppercase; margin-bottom:10px;}
   h2{font-family:var(--font-display); font-weight:500; font-size:clamp(26px,3.4vw,36px); margin:0 0 12px; letter-spacing:-.01em;}
   .section-head p{color:var(--sand-dim); font-size:16px; margin:0;}
 
-  /* ---------- companions ---------- */
-  .companions{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;}
-  .companion{
-    background:var(--night-2); border:1px solid var(--line); border-radius:var(--radius);
-    padding:26px; text-align:left; cursor:pointer; color:var(--sand);
-    transition:border-color .15s, transform .15s; position:relative;
-  }
-  .companion:hover{border-color:var(--sand-dim); transform:translateY(-2px);}
-  .companion.selected{border-color:var(--amber); background:var(--night-3);}
-  .companion.selected::after{
-    content:"✓ chosen"; position:absolute; top:16px; right:16px;
-    font-size:11px; font-weight:700; color:var(--amber); letter-spacing:.03em;
-  }
-  .orb{width:56px; height:56px; margin-bottom:16px; border-radius:50%;}
-  .companion h3{font-family:var(--font-display); font-weight:500; font-size:20px; margin:0 0 6px;}
-  .companion .vibe{font-size:13px; color:var(--sand-dim); margin:0 0 16px; min-height:34px;}
-  .companion .preview-btn{
-    display:inline-flex; align-items:center; gap:6px;
-    background:transparent; border:1px solid var(--line); color:var(--sand);
-    font-family:var(--font-body); font-size:12.5px; font-weight:600;
-    padding:7px 12px; border-radius:999px; cursor:pointer;
-  }
-  .companion .preview-btn:hover{border-color:var(--amber); color:var(--amber);}
-  .companion .preview-btn:focus-visible, .btn:focus-visible, #lang-toggle:focus-visible{
+  .btn:focus-visible{
     outline:2px solid var(--amber); outline-offset:2px;
   }
-  .companions-note{margin-top:18px; font-size:13px; color:var(--sand-dim);}
-  .start-talking{margin-top:22px;}
-  .start-talking[hidden]{display:none;}
 
   /* ---------- how it works ---------- */
   .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:26px;}
-  .step .num{font-family:var(--font-display); font-size:15px; color:var(--amber); margin-bottom:10px;}
+  .step{display:flex; flex-direction:column; align-items:center;}
+  .step-icon{
+    width:52px; height:52px; border-radius:50%; flex:none;
+    background:var(--night-3); color:var(--amber-deep);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  .step-icon svg{width:26px; height:26px;}
   .step h3{font-family:var(--font-display); font-weight:500; font-size:19px; margin:0 0 8px;}
-  .step p{color:var(--sand-dim); font-size:14.5px; margin:0;}
+  .step p{color:var(--sand-dim); font-size:14.5px; margin:0; max-width:32ch;}
 
   /* ---------- footer ---------- */
   footer{border-top:1px solid var(--line); padding:44px 0 40px;}
@@ -173,6 +182,32 @@
     html{scroll-behavior:auto;}
     *{transition:none !important;}
   }
+
+  /* ---------- floating greeter ---------- */
+  .floating-guide{
+    position:fixed; right:22px; bottom:22px; z-index:80;
+    display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+    opacity:0; transform:translateY(16px) scale(0.9);
+    transition:opacity .5s ease, transform .5s ease;
+    pointer-events:none;
+  }
+  .floating-guide.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .floating-bubble{
+    max-width:240px; background:var(--night-2); border:1px solid var(--line); border-radius:14px;
+    padding:12px 14px; font-size:13px; color:var(--sand); box-shadow:0 8px 24px rgba(31,59,62,0.12);
+    opacity:0; transform:translateY(6px); transition:opacity .35s ease, transform .35s ease;
+  }
+  .floating-bubble.show{ opacity:1; transform:translateY(0); }
+  .floating-avatar-btn{
+    background:var(--night-2); border:1px solid var(--line); border-radius:50%;
+    width:64px; height:64px; padding:0; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 28px rgba(31,59,62,0.16);
+  }
+  .floating-avatar-btn:hover{ border-color:var(--amber); }
+  .floating-avatar-btn:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+  @media (max-width:640px){ .floating-guide{ right:14px; bottom:14px; } }
+  @media (prefers-reduced-motion: reduce){ .floating-guide, .floating-bubble{ transition:none !important; } }
 </style>
 </head>
 <body>
@@ -193,27 +228,30 @@
     <div class="wrap">
       <nav class="site">
         <a href="index.html" class="logo">
-          <svg class="moon" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A9 9 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#E8A657"/></svg>
-          mindspace
+          <svg class="moon" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A9 9 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#3FB6AE"/></svg>
+          MindSpace
         </a>
         <div class="nav-links">
           <a href="about.html" data-i18n="nav_about">About</a>
-          <a href="#companions" data-i18n="nav_guides">Guides</a>
+          <a href="guides.html" data-i18n="nav_guides">Guides</a>
           <a href="resources.html" data-i18n="nav_resources">Resources</a>
-          <button id="lang-toggle" type="button">Español</button>
+          <a href="history.html" data-i18n="nav_history">History</a>
+          <select id="lang-select" aria-label="Language"></select>
         </div>
       </nav>
     </div>
   </header>
+  <div class="wrap"><p id="lang-beta-note" class="lang-beta-note" hidden></p></div>
 
   <main>
     <section class="hero">
+      <div class="hero-glow-3"></div>
       <div class="wrap">
         <div class="eyebrow"><span class="dot"></span><span data-i18n="hero_eyebrow">available right now · 100% anonymous</span></div>
-        <h1 data-i18n="hero_h1">someone to talk to before things become a crisis.</h1>
-        <p class="lede" data-i18n="hero_lede">A calm, anonymous space to say what's going on — no login, nothing saved, no pressure. This is a support tool, not a replacement for the people in your life or for professional care.</p>
+        <h1 data-i18n="hero_h1">Someone To Talk To Before Things Become A Crisis.</h1>
+        <p class="lede" data-i18n="hero_lede">A calm, anonymous space to say what's going on: no login, nothing saved, no pressure. This is a support tool, not a replacement for the people in your life or for professional care.</p>
         <div class="hero-ctas">
-          <a href="#companions" class="btn btn-primary" data-i18n="cta_primary">Choose a guide →</a>
+          <a href="guides.html" class="btn btn-primary" data-i18n="cta_primary">Choose a guide →</a>
           <a href="#how" class="btn btn-ghost" data-i18n="cta_secondary">How it works</a>
         </div>
         <div class="hero-tags">
@@ -221,23 +259,8 @@
         </div>
         <div class="hero-disclaimer">
           <strong data-i18n="disc_strong">This is not therapy or medical treatment.</strong>
-          <span data-i18n="disc_rest"> It's a place to be heard between the moments that feel too big. If you're in danger right now, call 988 or 911 — this page will always keep that option one tap away.</span>
+          <span data-i18n="disc_rest"> It's a place to be heard between the moments that feel too big. If you're in danger right now, call 988 or 911. This page will always keep that option one tap away.</span>
         </div>
-      </div>
-    </section>
-
-    <section id="companions">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-eyebrow" data-i18n="guides_eyebrow">Choose a guide</div>
-          <h2 data-i18n="guides_h2">Pick whichever presence feels comfortable.</h2>
-          <p data-i18n="guides_p">These are support guides, not simulated friends — each has a different pace and tone. Preview a voice before you start. You can switch anytime.</p>
-        </div>
-        <div class="companions" id="companion-list"></div>
-        <div id="start-talking" class="start-talking" hidden>
-          <a id="start-talking-link" href="#" class="btn btn-primary" data-i18n="start_cta">Start talking with this guide →</a>
-        </div>
-        <p class="companions-note" data-i18n="guides_note">Every guide follows the same boundaries: honest about being an AI, never a replacement for real people, always pointing you to 988/911 if things feel urgent.</p>
       </div>
     </section>
 
@@ -249,17 +272,23 @@
         </div>
         <div class="steps">
           <div class="step">
-            <div class="num">01</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-9.5-8.5C.5 8 2 4.5 5.5 4.5c2 0 3.5 1.2 4.5 2.7C11 5.7 12.5 4.5 14.5 4.5 18 4.5 19.5 8 19.5 11.5 17 15.65 12 20 12 20Z"/></svg>
+            </div>
             <h3 data-i18n="step1_h">Check in</h3>
             <p data-i18n="step1_p">Tap how you're feeling. One word is enough.</p>
           </div>
           <div class="step">
-            <div class="num">02</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+            </div>
             <h3 data-i18n="step2_h">Say anything</h3>
             <p data-i18n="step2_p">No name, no account, nothing saved. Just type.</p>
           </div>
           <div class="step">
-            <div class="num">03</div>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13a5 5 0 0 1 5-8 5.5 5.5 0 0 1 5 5.5c0 3-2 4-2 6a2.5 2.5 0 0 1-5 0"/><path d="M8 13c0 3 2 4 4 4"/></svg>
+            </div>
             <h3 data-i18n="step3_h">Feel heard</h3>
             <p data-i18n="step3_p">A calm, non-judgmental guide responds. Tools when you want them, 988 if you need it.</p>
           </div>
@@ -283,126 +312,77 @@
       </div>
     </div>
     <div class="wrap">
-      <p class="foot-legal" data-i18n="foot_legal">mindspace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.</p>
+      <p class="foot-legal" data-i18n="foot_legal">MindSpace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.</p>
     </div>
   </footer>
 
+  <div class="floating-guide" id="floating-guide">
+    <div class="floating-bubble" id="floating-bubble"></div>
+    <button type="button" class="floating-avatar-btn" id="floating-avatar-btn" aria-label="Choose a guide"></button>
+  </div>
+
+<script src="assets/guides.js"></script>
+<script src="assets/avatar.js"></script>
+<script src="assets/i18n.js"></script>
 <script>
-/* ---------------- companions data ---------------- */
-const companions = [
-  { id:'wren', color:'#8FA98C', pitch:1.0, rate:0.95,
-    name:{en:'Wren', es:'Wren'}, vibe:{en:'steady and quiet', es:'firme y tranquilo/a'} },
-  { id:'sol', color:'#E8A657', pitch:1.15, rate:1.0,
-    name:{en:'Sol', es:'Sol'}, vibe:{en:'warm and encouraging', es:'cálido/a y alentador/a'} },
-  { id:'moss', color:'#6E8B72', pitch:0.9, rate:0.9,
-    name:{en:'Moss', es:'Moss'}, vibe:{en:'grounded, doesn\u2019t rush you', es:'con los pies en la tierra, sin prisa'} },
-  { id:'ember', color:'#D97757', pitch:1.05, rate:1.0,
-    name:{en:'Ember', es:'Ember'}, vibe:{en:'gentle and curious', es:'suave y curioso/a'} },
-];
+const { GUIDES } = window.MindspaceGuides;
+const { LANGS, t, langMeta } = window.MindspaceI18n;
 
-let currentLang = 'en';
-let selectedCompanion = null;
+let currentLang = localStorage.getItem('mindspace_lang') || 'en';
 
-function renderCompanions(){
-  const list = document.getElementById('companion-list');
-  list.innerHTML = companions.map(c => `
-    <div class="companion${selectedCompanion===c.id?' selected':''}" data-id="${c.id}" role="button" tabindex="0" aria-pressed="${selectedCompanion===c.id}">
-      <svg class="orb" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="${c.color}" opacity="0.9"/><circle cx="28" cy="28" r="26" fill="none" stroke="${c.color}" stroke-opacity="0.4" stroke-width="6"/></svg>
-      <h3>${c.name[currentLang]}</h3>
-      <p class="vibe">${c.vibe[currentLang]}</p>
-      <button type="button" class="preview-btn" data-id="${c.id}">${currentLang==='en' ? '🔊 Hear a hello' : '🔊 Escuchar un saludo'}</button>
-    </div>
-  `).join('');
-
-  list.querySelectorAll('.companion').forEach(el=>{
-    el.addEventListener('click', (e)=>{
-      if(e.target.closest('.preview-btn')) return;
-      selectedCompanion = el.dataset.id;
-      renderCompanions();
-    });
-    el.addEventListener('keypress', (e)=>{
-      if(e.key==='Enter' || e.key===' '){ selectedCompanion = el.dataset.id; renderCompanions(); }
-    });
-  });
-  list.querySelectorAll('.preview-btn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      previewVoice(btn.dataset.id);
-    });
-  });
-
-  const startEl = document.getElementById('start-talking');
-  const startLink = document.getElementById('start-talking-link');
-  if(selectedCompanion){
-    startEl.hidden = false;
-    startLink.href = `chat.html?guide=${selectedCompanion}&lang=${currentLang}`;
-  } else {
-    startEl.hidden = true;
-  }
-}
-
-function previewVoice(id){
-  if(!('speechSynthesis' in window)) return;
-  const c = companions.find(x=>x.id===id);
-  const greeting = currentLang==='en'
-    ? `Hi, I'm ${c.name.en}. No pressure — I'm just here if you want to talk.`
-    : `Hola, soy ${c.name.es}. Sin presión, estoy aquí si quieres hablar.`;
-  const utter = new SpeechSynthesisUtterance(greeting);
-  utter.pitch = c.pitch;
-  utter.rate = c.rate;
-  utter.lang = currentLang==='en' ? 'en-US' : 'es-ES';
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
-}
-
-/* ---------------- language toggle ---------------- */
-const i18n = {
-  crisis1:{en:'In crisis right now?', es:'¿Estás en crisis ahora mismo?'},
-  crisis2:{en:'Call or text 988', es:'Llama o envía un mensaje al 988'},
-  crisis3:{en:'Text HOME to 741741', es:'Envía HOME al 741741'},
-  crisis4:{en:'Emergency: call 911', es:'Emergencia: llama al 911'},
-  nav_about:{en:'About', es:'Nosotros'},
-  nav_guides:{en:'Guides', es:'Guías'},
-  nav_resources:{en:'Resources', es:'Recursos'},
-  hero_eyebrow:{en:'available right now · 100% anonymous', es:'disponible ahora · 100% anónimo'},
-  hero_h1:{en:'someone to talk to before things become a crisis.', es:'alguien con quien hablar antes de que se convierta en una crisis.'},
-  hero_lede:{en:"A calm, anonymous space to say what's going on — no login, nothing saved, no pressure. This is a support tool, not a replacement for the people in your life or for professional care.", es:'Un espacio tranquilo y anónimo para contar lo que pasa — sin cuenta, sin guardar nada, sin presión. Es una herramienta de apoyo, no un reemplazo de las personas en tu vida ni de la atención profesional.'},
-  cta_primary:{en:'Choose a guide →', es:'Elegir una guía →'},
-  cta_secondary:{en:'How it works', es:'Cómo funciona'},
-  tag1:{en:'Anonymous', es:'Anónimo'}, tag2:{en:'Free', es:'Gratis'}, tag3:{en:'No signup', es:'Sin registro'}, tag4:{en:'988 always available', es:'988 siempre disponible'},
-  disc_strong:{en:'This is not therapy or medical treatment.', es:'Esto no es terapia ni tratamiento médico.'},
-  disc_rest:{en:" It's a place to be heard between the moments that feel too big. If you're in danger right now, call 988 or 911 — this page will always keep that option one tap away.", es:' Es un lugar para sentirte escuchado/a entre los momentos que se sienten demasiado grandes. Si estás en peligro ahora, llama al 988 o al 911 — esta opción siempre estará a un toque de distancia.'},
-  guides_eyebrow:{en:'Choose a guide', es:'Elige una guía'},
-  guides_h2:{en:'Pick whichever presence feels comfortable.', es:'Elige la presencia que te resulte más cómoda.'},
-  guides_p:{en:'These are support guides, not simulated friends — each has a different pace and tone. Preview a voice before you start. You can switch anytime.', es:'Son guías de apoyo, no amigos simulados — cada una tiene un ritmo y tono distinto. Escucha una voz antes de empezar. Puedes cambiar cuando quieras.'},
-  guides_note:{en:'Every guide follows the same boundaries: honest about being an AI, never a replacement for real people, always pointing you to 988/911 if things feel urgent.', es:'Todas las guías siguen los mismos límites: honestas sobre ser una IA, nunca un reemplazo de personas reales, siempre te guían al 988/911 si algo se siente urgente.'},
-  start_cta:{en:'Start talking with this guide →', es:'Empezar a hablar con esta guía →'},
-  how_eyebrow:{en:'Built for the moments before a crisis', es:'Creado para los momentos antes de una crisis'},
-  how_h2:{en:'Three steps. Nothing more required.', es:'Tres pasos. Nada más se requiere.'},
-  step1_h:{en:'Check in', es:'Registra cómo estás'}, step1_p:{en:"Tap how you're feeling. One word is enough.", es:'Toca cómo te sientes. Una palabra basta.'},
-  step2_h:{en:'Say anything', es:'Di lo que sea'}, step2_p:{en:'No name, no account, nothing saved. Just type.', es:'Sin nombre, sin cuenta, nada se guarda. Solo escribe.'},
-  step3_h:{en:'Feel heard', es:'Siéntete escuchado/a'}, step3_p:{en:'A calm, non-judgmental guide responds. Tools when you want them, 988 if you need it.', es:'Una guía tranquila y sin juicios responde. Herramientas cuando las quieras, 988 si lo necesitas.'},
-  foot_about:{en:'About', es:'Nosotros'}, foot_mission:{en:'Our mission', es:'Nuestra misión'}, foot_notwhat:{en:"What this isn't", es:'Lo que no somos'},
-  foot_support:{en:'Support', es:'Apoyo'}, foot_resources:{en:'Resources', es:'Recursos'},
-  foot_legal:{en:'mindspace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.', es:'mindspace es un proyecto de apoyo entre pares creado por un estudiante. No es un servicio médico o de salud mental con licencia y no reemplaza la atención profesional. Si tú o alguien que conoces está en peligro inmediato, llama o envía un mensaje al 988, o llama al 911.'},
-};
-
-function applyLang(){
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    if(i18n[key]) el.textContent = i18n[key][currentLang];
-  });
-  document.getElementById('lang-toggle').textContent = currentLang==='en' ? 'Español' : 'English';
-  document.documentElement.lang = currentLang;
-  renderCompanions();
-}
-
-document.getElementById('lang-toggle').addEventListener('click', ()=>{
-  currentLang = currentLang === 'en' ? 'es' : 'en';
+/* ---------------- language select ---------------- */
+const langSelect = document.getElementById('lang-select');
+langSelect.innerHTML = LANGS.map(l => `<option value="${l.code}">${l.label}</option>`).join('');
+langSelect.value = currentLang;
+langSelect.addEventListener('change', ()=>{
+  currentLang = langSelect.value;
+  localStorage.setItem('mindspace_lang', currentLang);
   applyLang();
 });
 
-renderCompanions();
+/* ---------------- language application ---------------- */
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(currentLang, el.getAttribute('data-i18n'));
+  });
+  document.documentElement.lang = currentLang;
+  const note = document.getElementById('lang-beta-note');
+  const meta = langMeta(currentLang);
+  if(meta.reviewed){
+    note.hidden = true;
+  } else {
+    note.hidden = false;
+    note.textContent = t(currentLang, 'lang_beta_note');
+  }
+  langSelect.value = currentLang;
+  renderFloatingGuide();
+}
+
+/* ---------------- floating greeter ---------------- */
+const floatingWrap = document.getElementById('floating-guide');
+const floatingBubble = document.getElementById('floating-bubble');
+const floatingBtn = document.getElementById('floating-avatar-btn');
+const floatingGuideChoice = GUIDES[Math.floor(Math.random() * GUIDES.length)];
+
+function renderFloatingGuide(){
+  floatingBtn.innerHTML = window.MindspaceAvatar.render(floatingGuideChoice, 48, { bob:true });
+  floatingBubble.textContent = t(currentLang, 'voice_preview_greeting', { name: floatingGuideChoice.name[currentLang] });
+}
+
+floatingBtn.addEventListener('click', ()=>{
+  window.location.href = 'guides.html';
+});
+
+renderFloatingGuide();
+setTimeout(()=>{
+  floatingWrap.classList.add('show');
+  setTimeout(()=> floatingBubble.classList.add('show'), 300);
+}, 500);
+// Bubble stays but fades its emphasis after a while so it doesn't nag —
+// still fully visible/clickable, just no longer animating in.
+setTimeout(()=> floatingBubble.classList.remove('show'), 9000);
+
+applyLang();
 </script>
 </body>
 </html>

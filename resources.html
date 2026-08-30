@@ -3,23 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resources — mindspace</title>
+<title>Resources · MindSpace</title>
 <meta name="description" content="Crisis lines, how to help a friend, and ongoing support options.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#FFF6EC;
+    --night:#EAF5F6;
     --night-2:#FFFFFF;
-    --night-3:#FFEADA;
-    --sand:#2B2438;
-    --sand-dim:#6B6178;
-    --amber:#FF7A45;
-    --amber-deep:#E85D2C;
-    --sage:#2EC4B6;
-    --lavender:#8B7FD6;
-    --sun:#FFC857;
-    --line:rgba(43,36,56,0.12);
+    --night-3:#D2ECEA;
+    --sand:#1F3B3E;
+    --sand-dim:#5C7A7D;
+    --amber:#3FB6AE;
+    --amber-deep:#2E948D;
+    --sage:#6FBF8B;
+    --lavender:#8FA8D9;
+    --sun:#FFC978;
+    --line:rgba(31,59,62,0.14);
+  --grad:linear-gradient(135deg, var(--amber) 0%, var(--sage) 55%, var(--lavender) 100%);
     --radius:18px;
     --font-display:'Fraunces', Georgia, serif;
     --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -29,7 +30,7 @@
   a{color:inherit;}
   .wrap{max-width:820px; margin:0 auto; padding:0 24px;}
 
-  .crisis-bar{position:sticky; top:0; z-index:100; background:var(--amber); color:var(--sand); font-weight:600; font-size:14px;}
+  .crisis-bar{position:sticky; top:0; z-index:100; background:var(--grad); color:#fff; font-weight:600; font-size:14px;}
   .crisis-bar .wrap{max-width:1080px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px 18px; padding:9px 24px; text-align:center;}
   .crisis-bar a{text-decoration:underline; text-underline-offset:2px; white-space:nowrap;}
   .crisis-bar .sep{opacity:.55;}
@@ -41,6 +42,7 @@
   .nav-links{display:flex; gap:22px; font-size:14px; font-weight:500;}
   .nav-links a{text-decoration:none; opacity:.85;}
   .nav-links a:hover{opacity:1;}
+  .nav-links a[aria-current="page"]{opacity:1; color:var(--amber-deep);}
 
   main{padding:64px 0 40px;}
   .eyebrow{font-size:13px; font-weight:600; color:var(--amber-deep); letter-spacing:.04em; text-transform:uppercase; margin-bottom:14px;}
@@ -55,14 +57,14 @@
   .contact{
     display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
     background:var(--night-2); border:1px solid var(--line); border-radius:14px; padding:18px 22px;
-    box-shadow:0 2px 10px rgba(43,36,56,0.05);
+    box-shadow:0 2px 10px rgba(31,59,62,0.05);
   }
   .contact-info p{margin:0; font-size:14px;}
   .contact-cta{
     display:inline-flex; align-items:center; gap:8px; text-decoration:none;
-    background:var(--amber); color:var(--sand); font-weight:700; font-size:14px;
+    background:var(--grad); color:#fff; font-weight:700; font-size:14px;
     padding:10px 18px; border-radius:999px; white-space:nowrap;
-    box-shadow:0 6px 16px rgba(255,122,69,0.3);
+    box-shadow:0 6px 16px rgba(63,182,174,0.3);
   }
   .contact-cta:hover{background:var(--amber-deep);}
   .contact-cta.ghost{background:transparent; box-shadow:none; border:1px solid var(--line); color:var(--sand);}
@@ -78,7 +80,7 @@
   .friend-step p{margin:0;}
   .friend-step strong{color:var(--sand);}
 
-  .warning-card{background:var(--night-2); border:1px solid var(--line); border-radius:var(--radius); padding:26px 28px; margin:20px 0; box-shadow:0 2px 10px rgba(43,36,56,0.05);}
+  .warning-card{background:var(--night-2); border:1px solid var(--line); border-radius:var(--radius); padding:26px 28px; margin:20px 0; box-shadow:0 2px 10px rgba(31,59,62,0.05);}
   .warning-card ul{margin:0; padding-left:20px; color:var(--sand-dim);}
   .warning-card li{margin-bottom:8px;}
   .warning-card .foot-note{margin-top:16px; margin-bottom:0; font-size:14px;}
@@ -109,13 +111,15 @@
   <header class="site">
     <div class="wrap">
       <a href="index.html" class="logo">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5A9 9 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#FF7A45"/></svg>
-        mindspace
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5A9 9 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#3FB6AE"/></svg>
+        MindSpace
       </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="index.html#companions">Guides</a>
+        <a href="guides.html">Guides</a>
+        <a href="resources.html" aria-current="page">Resources</a>
+        <a href="history.html">History</a>
       </div>
     </div>
   </header>
@@ -124,7 +128,7 @@
     <div class="wrap">
       <div class="eyebrow">Resources</div>
       <h1>Real support, beyond this site.</h1>
-      <p class="lede">mindspace is a starting point, not the whole picture. These are the people and services built for exactly this — free, and mostly available right now.</p>
+      <p class="lede">MindSpace is a starting point, not the whole picture. These are the people and services built for exactly this: free, and mostly available right now.</p>
 
       <h2 id="now">Talk to someone right now</h2>
       <p class="section-note">Free, confidential, and available around the clock.</p>
@@ -132,7 +136,7 @@
         <div class="contact">
           <div class="contact-info">
             <h3>988 Suicide & Crisis Lifeline</h3>
-            <p>Call or text 988 — for you, or for someone you're worried about.</p>
+            <p>Call or text 988, for you or for someone you're worried about.</p>
           </div>
           <a class="contact-cta" href="tel:988">Call 988</a>
         </div>
@@ -165,13 +169,14 @@
           <a class="contact-cta" href="tel:911">Call 911</a>
         </div>
       </div>
+      <p class="section-note">Outside the US, or need a line in another language? <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> lists crisis lines by country. 988 and 741741 are US-specific numbers and won't work everywhere MindSpace's language options might be used.</p>
 
       <h2>If you're worried about a friend</h2>
-      <p class="section-note">You don't need special training to help — you need to take it seriously and not carry it alone.</p>
+      <p class="section-note">You don't need special training to help. You need to take it seriously and not carry it alone.</p>
       <div class="friend-steps">
         <div class="friend-step">
           <div class="n">1</div>
-          <p><strong>Ask directly.</strong> "Are you thinking about suicide?" doesn't put the idea in their head — asking clearly is what the research actually supports, and it tells them you can handle hearing the real answer.</p>
+          <p><strong>Ask directly.</strong> "Are you thinking about suicide?" doesn't put the idea in their head. Asking clearly is what the research actually supports, and it tells them you can handle hearing the real answer.</p>
         </div>
         <div class="friend-step">
           <div class="n">2</div>
@@ -183,7 +188,7 @@
         </div>
         <div class="friend-step">
           <div class="n">4</div>
-          <p><strong>Bring in a trusted adult</strong> — a parent, school counselor, or another adult you both trust. You're allowed to ask for help with this; it's not betrayal.</p>
+          <p><strong>Bring in a trusted adult</strong>: a parent, school counselor, or another adult you both trust. You're allowed to ask for help with this; it's not betrayal.</p>
         </div>
         <div class="friend-step">
           <div class="n">5</div>
@@ -197,13 +202,13 @@
         <div class="contact">
           <div class="contact-info">
             <h3>Your school or campus counseling center</h3>
-            <p>Usually free, usually closer than you think — worth checking even if you've never gone.</p>
+            <p>Usually free, usually closer than you think. Worth checking even if you've never gone.</p>
           </div>
         </div>
         <div class="contact">
           <div class="contact-info">
             <h3>SAMHSA National Helpline</h3>
-            <p>Free, confidential, treatment referral service — for mental health or substance use.</p>
+            <p>Free, confidential, treatment referral service for mental health or substance use.</p>
           </div>
           <a class="contact-cta ghost" href="tel:18006624357">Call 1-800-662-4357</a>
         </div>
@@ -222,7 +227,7 @@
           <li>Feeling hopeless, trapped, or like there's no way out</li>
           <li>Withdrawing from friends, family, or things they used to care about</li>
           <li>Giving away belongings, or talking as if saying goodbye</li>
-          <li>Big, sudden shifts in mood — including seeming unusually calm after a low period</li>
+          <li>Big, sudden shifts in mood, including seeming unusually calm after a low period</li>
           <li>Increased use of alcohol or drugs, or noticeably reckless behavior</li>
         </ul>
         <p class="foot-note">One sign alone isn't a diagnosis. Several together, or a gut feeling something's wrong, is enough reason to ask directly and involve someone else.</p>
@@ -244,7 +249,7 @@
         <a href="sms:741741&body=HOME">Crisis Text Line</a>
       </div>
     </div>
-    <p class="foot-legal">mindspace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.</p>
+    <p class="foot-legal">MindSpace is a student-built peer-support project. It is not a licensed medical or mental health service and does not replace professional care. If you or someone you know is in immediate danger, call or text 988, or call 911.</p>
   </footer>
 
 </body>
