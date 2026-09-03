@@ -1,17 +1,15 @@
 // MindSpace — local backend config.
 //
 // Copy this file to assets/config.js (gitignored — never commit real
-// values) and fill in your Supabase project's public values once the chat
-// edge function has been deployed AND the risk-detection logic has been
-// reviewed per docs/RISK_DETECTION_SPEC.md. The anon key is safe to expose
-// client-side (it's what Supabase's client libraries are designed for) —
-// the real secret (ANTHROPIC_API_KEY) lives only in Supabase project
-// secrets and is never referenced from this repo.
+// values) to point the site at a Python chat backend running somewhere
+// other than the default. Leaving this file absent (or BACKEND_URL empty)
+// falls back to http://localhost:8787, which is what `uvicorn main:app
+// --port 8787` inside server/ listens on by default.
 //
-// Leaving SUPABASE_URL empty (the default) keeps the site running on the
-// local scripted mock backend — safe for demos, portfolio review, and UI
-// development without touching a real AI backend at all.
+// The backend itself decides mock vs. live: run it with no
+// ANTHROPIC_API_KEY set (server/.env) for the local scripted mock — safe
+// for demos and UI work — or with a real key once the risk-detection
+// logic has been reviewed per docs/RISK_DETECTION_SPEC.md.
 window.MINDSPACE_CONFIG = {
-  SUPABASE_URL: '',       // e.g. 'https://xxxxxxxx.supabase.co'
-  SUPABASE_ANON_KEY: '',  // Supabase project's public anon key
+  BACKEND_URL: '', // e.g. 'http://localhost:8787' or a deployed URL
 };

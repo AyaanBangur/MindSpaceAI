@@ -190,15 +190,17 @@
   ================================================================
   INTEGRATION NOTE
   ================================================================
-  sendToGuide() delegates to window.MindspaceBackend.sendToGuide(),
-  which uses the real Supabase edge function (supabase/functions/chat)
-  if assets/config.js has SUPABASE_URL configured, or a local scripted
-  mock otherwise (the default — safe for demos, no backend required).
+  sendToGuide() delegates to window.MindspaceBackend.sendToGuide(), which
+  POSTs to the Python backend in server/ (see server/README.md to run it).
+  That server decides live vs. mock: with no ANTHROPIC_API_KEY set it runs
+  the local scripted mock (the default — safe for demos, no live model
+  required); with a key set it calls Claude directly.
 
-  Per docs/RISK_DETECTION_SPEC.md, the real backend's risk-detection
-  pass is implemented but NOT yet reviewed by anyone with clinical/
-  crisis background — do not point this at real users until that
-  review has happened. See README.md "Status" for the current gate.
+  Per docs/RISK_DETECTION_SPEC.md, the live path's risk-detection pass is
+  implemented but NOT yet reviewed by anyone with clinical/crisis
+  background — do not point a deployment with a real key at real users
+  until that review has happened. See README.md "Status" for the current
+  gate.
   ================================================================
 */
 
@@ -217,14 +219,24 @@ document.getElementById('head-vibe').textContent = guide.vibe[lang];
 document.getElementById('msg-input').placeholder = t(lang, 'composer_placeholder');
 document.getElementById('composer-note').textContent = t(lang, 'composer_note');
 document.querySelector('.end-link').textContent = t(lang, 'end_chat');
-if(!window.MindspaceBackend.isLive){
-  document.getElementById('demo-note').textContent =
-    lang === 'es' ? '(Modo demostración local: sin backend en vivo conectado.)' :
-    lang === 'fr' ? '(Mode démo local : aucun backend en direct connecté.)' :
-    lang === 'hi' ? '(स्थानीय डेमो मोड: कोई लाइव बैकएंड कनेक्ट नहीं है।)' :
-    lang === 'zh' ? '（本地演示模式：未连接实时后端。）' :
-    '(Local demo mode: no live backend connected.)';
-}
+window.MindspaceBackend.checkHealth().then(({ reachable, live }) => {
+  const note = document.getElementById('demo-note');
+  if(!reachable){
+    note.textContent =
+      lang === 'es' ? `(No se pudo conectar con el backend en ${window.MindspaceBackend.backendUrl}. ¿Está corriendo el servidor de Python? Ver server/README.md.)` :
+      lang === 'fr' ? `(Impossible de joindre le backend sur ${window.MindspaceBackend.backendUrl}. Le serveur Python tourne-t-il ? Voir server/README.md.)` :
+      lang === 'hi' ? `(${window.MindspaceBackend.backendUrl} पर बैकएंड से कनेक्ट नहीं हो सका। क्या Python सर्वर चल रहा है? server/README.md देखें।)` :
+      lang === 'zh' ? `（无法连接到 ${window.MindspaceBackend.backendUrl} 上的后端。Python 服务器在运行吗？请查看 server/README.md。）` :
+      `(Couldn't reach the backend at ${window.MindspaceBackend.backendUrl}. Is the Python server running? See server/README.md.)`;
+  } else if(!live){
+    note.textContent =
+      lang === 'es' ? '(Modo demostración local: el servidor Python está corriendo sin una clave de API en vivo.)' :
+      lang === 'fr' ? "(Mode démo local : le serveur Python tourne sans clé d'API en direct.)" :
+      lang === 'hi' ? '(स्थानीय डेमो मोड: Python सर्वर बिना लाइव API कुंजी के चल रहा है।)' :
+      lang === 'zh' ? '（本地演示模式：Python 服务器正在运行，但未配置实时 API 密钥。）' :
+      '(Local demo mode: the Python server is running without a live API key.)';
+  }
+});
 
 /* ---------------- voice picker ---------------- */
 const voiceSelect = document.getElementById('voice-select');

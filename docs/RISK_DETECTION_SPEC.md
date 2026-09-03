@@ -78,7 +78,7 @@ against minimizing false positives.
   note that this session already had a flagged turn, per the "escalates
   sensitivity for rest of session" rule above. **Open item: this session
   memory is not yet threaded through in the current backend — see
-  `supabase/functions/chat/index.ts`.**
+  `server/live_backend.py`.**
 
 ## Escalation copy (EN)
 
@@ -164,14 +164,15 @@ each citation above before this copy reaches real users.**
 - Sensitivity-escalation-within-a-session (category 5) is specified here
   but not yet implemented in code.
 - Non-English risk language: the classifier prompt in
-  `supabase/functions/chat/index.ts` is written to reason in whatever
-  language the user writes in, but it has not been tested against Spanish
-  (or other language) risk language specifically, and idioms for
-  hopelessness/goodbye framing don't always translate literally. This is a
-  concrete thing to test adversarially before trusting it in a non-English
+  `server/live_backend.py` is written to reason in whatever language the
+  user writes in, but it has not been tested against Spanish (or other
+  language) risk language specifically, and idioms for hopelessness/
+  goodbye framing don't always translate literally. This is a concrete
+  thing to test adversarially before trusting it in a non-English
   conversation.
-- **The local demo's keyword net (`detectsMockRisk` in `assets/backend.js`)
-  is fundamentally limited and this was confirmed directly**: an initial
+- **The local demo's keyword net (`detects_mock_risk` in
+  `server/classifier.py`) is fundamentally limited and this was confirmed
+  directly**: an initial
   version was tested against 15 realistic phrasings of suicidal ideation,
   intent, a plan, or access to means, and missed 11 of them — it only
   caught messages containing the literal words "kill myself." Common real

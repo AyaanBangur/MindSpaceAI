@@ -1,0 +1,274 @@
+{
+  "en": {
+    "greeting": [
+      "hi",
+      "hello",
+      "hey",
+      "yo",
+      "sup",
+      "what's up"
+    ],
+    "gratitude": [
+      "thanks",
+      "thank you",
+      "thx",
+      "ty"
+    ],
+    "feeling_bad": [
+      "sad",
+      "depressed",
+      "depression",
+      "depressing",
+      "anxious",
+      "anxiety",
+      "stress",
+      "stressed",
+      "scared",
+      "afraid",
+      "angry",
+      "mad",
+      "hate",
+      "tired",
+      "exhausted",
+      "alone",
+      "lonely",
+      "hurt",
+      "cry",
+      "crying",
+      "hard",
+      "difficult",
+      "worried",
+      "worry",
+      "overwhelmed",
+      "hopeless",
+      "bad",
+      "empty",
+      "numb",
+      "worthless",
+      "miserable",
+      "struggling",
+      "broken",
+      "lost",
+      "give up",
+      "can't cope",
+      "cant cope"
+    ],
+    "feeling_good": [
+      "good",
+      "great",
+      "fine",
+      "happy",
+      "better",
+      "okay",
+      "ok",
+      "calm",
+      "relieved"
+    ],
+    "coping_request": [
+      "improve myself",
+      "improve",
+      "get better",
+      "feel better",
+      "cope",
+      "coping",
+      "any tips",
+      "any advice",
+      "what can i do",
+      "what should i do",
+      "ways to feel",
+      "help myself",
+      "self improve"
+    ],
+    "help_request": [
+      "help me",
+      "can you help",
+      "please help",
+      "need help",
+      "could you help"
+    ]
+  },
+  "es": {
+    "greeting": [
+      "hola",
+      "buenas",
+      "ey"
+    ],
+    "gratitude": [
+      "gracias"
+    ],
+    "feeling_bad": [
+      "triste",
+      "ansioso",
+      "ansiosa",
+      "estresado",
+      "estresada",
+      "cansado",
+      "cansada",
+      "sola",
+      "solo",
+      "difícil",
+      "dificil",
+      "preocupado",
+      "preocupada",
+      "mal",
+      "agobiado",
+      "agobiada",
+      "vacío",
+      "vacio",
+      "vacia",
+      "vacía",
+      "perdido",
+      "perdida",
+      "sin ganas",
+      "no puedo más",
+      "no puedo mas"
+    ],
+    "feeling_good": [
+      "bien",
+      "mejor",
+      "feliz",
+      "tranquil"
+    ],
+    "coping_request": [
+      "mejorar",
+      "sentirme mejor",
+      "sentirme bien",
+      "algún consejo",
+      "algun consejo",
+      "consejos",
+      "cómo lidiar",
+      "como lidiar",
+      "afrontar"
+    ],
+    "help_request": [
+      "ayúdame",
+      "ayudame",
+      "puedes ayudarme",
+      "necesito ayuda",
+      "me puedes ayudar"
+    ]
+  },
+  "fr": {
+    "greeting": [
+      "bonjour",
+      "salut",
+      "coucou"
+    ],
+    "gratitude": [
+      "merci"
+    ],
+    "feeling_bad": [
+      "triste",
+      "anxieux",
+      "anxieuse",
+      "stress",
+      "fatigué",
+      "fatiguée",
+      "seul",
+      "seule",
+      "difficile",
+      "inquiet",
+      "inquiète"
+    ],
+    "feeling_good": [
+      "bien",
+      "mieux",
+      "content",
+      "contente",
+      "calme"
+    ],
+    "coping_request": [
+      "aller mieux",
+      "m'améliorer",
+      "des conseils",
+      "un conseil",
+      "gérer ça",
+      "faire face"
+    ],
+    "help_request": [
+      "aide moi",
+      "aidez moi",
+      "peux tu aider",
+      "pouvez vous aider",
+      "j'ai besoin d'aide"
+    ]
+  },
+  "hi": {
+    "greeting": [
+      "नमस्ते",
+      "हाय",
+      "हेलो"
+    ],
+    "gratitude": [
+      "धन्यवाद",
+      "शुक्रिया"
+    ],
+    "feeling_bad": [
+      "उदास",
+      "तनाव",
+      "डर",
+      "गुस्सा",
+      "थका",
+      "अकेला",
+      "मुश्किल",
+      "चिंता"
+    ],
+    "feeling_good": [
+      "अच्छा",
+      "बेहतर",
+      "खुश",
+      "शांत"
+    ],
+    "coping_request": [
+      "बेहतर महसूस",
+      "कैसे सुधारूं",
+      "कोई सलाह",
+      "कैसे संभालूं"
+    ],
+    "help_request": [
+      "मदद करो",
+      "मदद कीजिए",
+      "मुझे मदद चाहिए"
+    ]
+  },
+  "zh": {
+    "greeting": [
+      "你好",
+      "嗨",
+      "喂"
+    ],
+    "gratitude": [
+      "谢谢"
+    ],
+    "feeling_bad": [
+      "难过",
+      "焦虑",
+      "压力",
+      "害怕",
+      "生气",
+      "累",
+      "孤独",
+      "困难",
+      "担心"
+    ],
+    "feeling_good": [
+      "好",
+      "开心",
+      "快乐",
+      "平静",
+      "放松"
+    ],
+    "coping_request": [
+      "变得更好",
+      "感觉好一点",
+      "有什么建议",
+      "怎么应对",
+      "怎么办"
+    ],
+    "help_request": [
+      "帮帮我",
+      "你能帮我吗",
+      "我需要帮助"
+    ]
+  }
+}
