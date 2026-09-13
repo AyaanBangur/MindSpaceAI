@@ -34,10 +34,12 @@ be able to talk to a guide until this server is running.
   classification, the risk-phrase safety net, and reply-pool selection.
   A faithful port of the original `assets/backend.js` + the
   `mock_replies`/`mock_keywords` data that used to live in `assets/i18n.js`.
-- `live_backend.py` — the live path: a narrow Haiku-based risk classifier
-  that runs before anything else, then a Sonnet-based conversational
-  reply if nothing was flagged. A faithful port of the original
-  `supabase/functions/chat/index.ts`.
+- `live_backend.py` — the live path. Originally a faithful port of
+  `supabase/functions/chat/index.ts` (a narrow Haiku-based risk classifier,
+  then a Sonnet-based conversational reply); since extended with a second
+  narrow Haiku-based scope classifier — is this message even something the
+  persona should engage with — that runs after the risk check and before
+  the conversational reply. See `docs/AGENT_GUARDRAILS_SPEC.md`.
 - `data/*.json` — the mock backend's content (per-guide reply pools,
   keyword lists, risk phrases, negation words), extracted programmatically
   from the original JS source so the port didn't risk a transcription typo

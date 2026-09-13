@@ -8,6 +8,12 @@ volunteer trainer) before `assessRisk()` is allowed to gate real
 conversations with real users. Nothing in this repo should be treated as
 "launched" until that review has happened and its feedback is incorporated.
 
+This document covers *risk* detection specifically (is the user in
+danger). For the separate guardrail covering agent role/scope — what the
+persona should and shouldn't engage with at all (medical/legal advice,
+romantic/sexual roleplay, off-topic tasks, jailbreak attempts) — see
+`docs/AGENT_GUARDRAILS_SPEC.md`.
+
 ## Why a separate pass, not the conversational model
 
 The conversational persona (Wren/Sol/Moss/Ember) is tuned for warmth and
