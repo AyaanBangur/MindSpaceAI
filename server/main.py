@@ -3,16 +3,18 @@
 Replaces the previous two-piece backend (assets/backend.js's client-side
 mock + supabase/functions/chat/index.ts's Deno edge function) with a single
 Python service. The frontend (assets/backend.js) now just POSTs every
-message here; this process decides whether to run the local scripted mock
-or the live Claude-backed path — that decision used to be split between
-the browser (mock) and Supabase (live), and now lives in one place.
+message here; this process decides which of three paths handles it: the
+local scripted mock, live Gemini, or live Claude — that decision used to
+be split between the browser (mock) and Supabase (live), and now lives in
+one place, in active_provider() below.
 
 Run locally:
     cd server
     pip install -r requirements.txt
-    cp .env.example .env          # then fill in ANTHROPIC_API_KEY if you
-                                   # have one — leave it unset to run the
-                                   # mock, exactly like before
+    cp .env.example .env          # then fill in GEMINI_API_KEY and/or
+                                   # ANTHROPIC_API_KEY if you have one —
+                                   # leave both unset to run the mock,
+                                   # exactly like before
     uvicorn main:app --reload --port 8787
 
 The site (served via .claude/launch.json's mindspace-static config, or any
@@ -31,6 +33,7 @@ from pydantic import BaseModel
 load_dotenv(Path(__file__).parent / ".env")
 
 import classifier
+import gemini_backend
 import live_backend
 
 app = FastAPI(title="MindSpace chat backend")
@@ -59,9 +62,24 @@ class ChatResponse(BaseModel):
     risk_flag: bool
 
 
+def active_provider() -> str:
+    """Gemini takes priority when both keys happen to be set — this was a
+    deliberate choice, not an accident, when Gemini support was added: the
+    person configuring this server gets what they most recently asked for
+    without needing a separate explicit provider switch. If you want
+    Anthropic instead while a Gemini key is also present, unset
+    GEMINI_API_KEY rather than relying on ordering."""
+    if gemini_backend.GEMINI_API_KEY:
+        return "gemini"
+    if live_backend.ANTHROPIC_API_KEY:
+        return "anthropic"
+    return "mock"
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "live": bool(live_backend.ANTHROPIC_API_KEY)}
+    provider = active_provider()
+    return {"status": "ok", "live": provider != "mock", "provider": provider}
 
 
 @app.post("/chat", response_model=ChatResponse)
@@ -69,7 +87,10 @@ async def chat(req: ChatRequest):
     if not req.message or not req.message.strip():
         return ChatResponse(reply=None, risk_flag=False)
 
-    if live_backend.ANTHROPIC_API_KEY:
+    provider = active_provider()
+    if provider == "gemini":
+        result = await gemini_backend.send_to_guide_gemini(req.guideId, req.lang, req.history, req.message)
+    elif provider == "anthropic":
         result = await live_backend.send_to_guide_live(req.guideId, req.lang, req.history, req.message)
     else:
         result = classifier.send_to_guide_mock(req.guideId, req.lang, req.message)
