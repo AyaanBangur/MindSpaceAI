@@ -70,18 +70,31 @@ def is_negated(text: str, match_index: int, lang: str) -> bool:
 
 
 def detects_mock_risk(message: str, lang: str) -> bool:
-    """Keyword/phrase net covering the signal categories in
-    docs/RISK_DETECTION_SPEC.md — explicit intent (with or without a plan),
-    access-to-means + distress, and goodbye/finality language. Deliberately
-    over-inclusive per the spec's stated asymmetric cost. This is still a
-    phrase match, not real language understanding — it cannot replace the
-    live, reviewed backend, only avoid leaving zero net when no backend
-    (or no API key) is configured."""
+    """Keyword/phrase net covering safety risk phrases safely
+    without triggering on normal multi-word sentences or partial fragments."""
     text = message.strip().lower()
     if not text:
         return False
-    phrases = RISK_PHRASES.get(lang, RISK_PHRASES["en"])
-    return any(p in text for p in phrases)
+    
+    tokens = tokenize(text)
+    # Get phrases strictly for the requested language (fallback to English)
+    phrases = RISK_PHRASES.get(lang) or RISK_PHRASES.get("en", [])
+    
+    for p in phrases:
+        p_clean = p.strip().lower()
+        if not p_clean:
+            continue
+        
+        # If it's a multi-word phrase, check as substring
+        if " " in p_clean or lang == "zh" or lang == "hi":
+            if p_clean in text:
+                return True
+        else:
+            # Single-word risk terms must match an exact token 
+            if p_clean in tokens:
+                return True
+                
+    return False
 
 
 def classify_mock(message: str, lang: str) -> str:
