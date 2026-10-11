@@ -84,7 +84,7 @@ async def assess_scope(message: str) -> str:
                 json={
                     "system_instruction": {"parts": [{"text": SCOPE_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": f"Latest message to classify:\n{message}"}]}],
-                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
+                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0},
                 },
             )
 
@@ -128,7 +128,7 @@ async def assess_risk(message: str, history: list[dict[str, Any]]) -> bool:
                 json={
                     "system_instruction": {"parts": [{"text": RISK_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": content}]}],
-                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
+                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0},
                 },
             )
 
