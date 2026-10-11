@@ -46,8 +46,8 @@ GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 # Fast, cheap model for the classification passes; a stronger model for the
 # conversational reply. Swap freely (e.g. to whatever the current latest
 # Gemini model names are) — nothing else here assumes a specific model name.
-CLASSIFIER_MODEL = "gemini-2.0-flash"
-REPLY_MODEL = "gemini-2.5-pro"
+CLASSIFIER_MODEL = "gemini-3.8-flash"
+REPLY_MODEL = "gemini-3.8-flash"
 
 
 def _headers() -> dict[str, str]:
