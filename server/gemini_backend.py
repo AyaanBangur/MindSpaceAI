@@ -46,8 +46,8 @@ GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 # Fast, cheap model for the classification passes; a stronger model for the
 # conversational reply. Swap freely (e.g. to whatever the current latest
 # Gemini model names are) — nothing else here assumes a specific model name.
-CLASSIFIER_MODEL = "gemini-3.8-flash"
-REPLY_MODEL = "gemini-3.8-flash"
+CLASSIFIER_MODEL = "gemini-3.5-flash-lite"
+REPLY_MODEL = "gemini-3.5-flash"
 
 
 def _headers() -> dict[str, str]:
@@ -84,7 +84,7 @@ async def assess_scope(message: str) -> str:
                 json={
                     "system_instruction": {"parts": [{"text": SCOPE_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": f"Latest message to classify:\n{message}"}]}],
-                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
+                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
                 },
             )
 
@@ -128,7 +128,7 @@ async def assess_risk(message: str, history: list[dict[str, Any]]) -> bool:
                 json={
                     "system_instruction": {"parts": [{"text": RISK_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": content}]}],
-                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
+                    "generationConfig": {"maxOutputTokens": 512, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
                 },
             )
 
