@@ -84,7 +84,7 @@ async def assess_scope(message: str) -> str:
                 json={
                     "system_instruction": {"parts": [{"text": SCOPE_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": f"Latest message to classify:\n{message}"}]}],
-                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0},
+                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
                 },
             )
 
@@ -128,7 +128,7 @@ async def assess_risk(message: str, history: list[dict[str, Any]]) -> bool:
                 json={
                     "system_instruction": {"parts": [{"text": RISK_CLASSIFIER_PROMPT}]},
                     "contents": [{"role": "user", "parts": [{"text": content}]}],
-                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0},
+                    "generationConfig": {"maxOutputTokens": 40, "temperature": 0, "thinkingConfig": {"thinkingBudget": 0}},
                 },
             )
 
@@ -168,7 +168,7 @@ async def send_to_guide_gemini(guide_id: str, lang: str, history: list[dict[str,
                 json={
                     "system_instruction": {"parts": [{"text": system_prompt(guide_id, lang or "en")}]},
                     "contents": [*_history_to_contents(history), {"role": "user", "parts": [{"text": message}]}],
-                    "generationConfig": {"maxOutputTokens": 300},
+                    "generationConfig": {"maxOutputTokens": 600, "thinkingConfig": {"thinkingBudget": 0}},
                 },
             )
     except Exception:
